@@ -6,5 +6,5 @@ function SuppliesForSchool(input){
     let cenaMateriali = (broiPaketHimikali + broiPaketMarkeri + litriPreparat)
     let krainaSuma = cenaMateriali -(cenaMateriali*procentNamalenie)
     console.log(krainaSuma)
-}
+} 
 SuppliesForSchool(["2", "3", "4","25"])
