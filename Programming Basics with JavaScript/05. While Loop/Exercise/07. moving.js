@@ -3,7 +3,7 @@ function moving(input){
     let w = input[index];
     index++;
     let l = input[index];
-    index++;
+    index++; 
     let h = input[index];
     index++;
     let command = input[index];
