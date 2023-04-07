@@ -1,9 +1,10 @@
 import { page, render} from "./lib.js";
+import { homeView } from "./views/home.js";
 
 const main = document.querySelector(`main`);
 
 page(decorateCtx);
-page('/', ()=> console.log("home"))
+page('/', ()=> homeView)
 page('/memes', ()=> console.log("memes"))
 page('/memes/:id', ()=> console.log("details"))
 page('/edit:id', ()=> console.log("edit"))
