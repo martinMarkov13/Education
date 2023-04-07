@@ -14,6 +14,8 @@ const homeTemplate = () => html`
 </section>`;
 
 export function homeView(ctx){
-
+    ctx.render(homeTemplate()); 
 }
+
+
 
