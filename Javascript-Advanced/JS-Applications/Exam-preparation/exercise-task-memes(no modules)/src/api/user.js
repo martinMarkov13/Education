@@ -2,7 +2,8 @@ import { clearUserData, setUserData } from "../util.js";
 import { get, post } from "./api.js";
 
 export async function login(email, password){
-    const result = await post(`/users/login`, {email, password})
+    const result = await post(`/users/login`, { email, password });
+
     const userData = {
         id: result._id,
         username: result.username,
@@ -25,8 +26,8 @@ export async function register(username, email, password, gender){
         gender: result.gender,
         accessToken: result.accessToken
     }
-    setUserData(userData)
-    return result; 
+        setUserData(userData)
+        return result; 
 }
 
 export  function logout(){
