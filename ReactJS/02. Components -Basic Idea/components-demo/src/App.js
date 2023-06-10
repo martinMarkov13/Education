@@ -8,10 +8,10 @@ function App() {
         {title: "Harry Potter", year:2003, cast: ["Daniel Radcliffe", "Emma Watson"]},
         {title: "Lord of the rings", year:2004, cast: ["Vigo Mortensen", "Orlando Bloom"]},
     ];
-
   return (
     <div className="App">
         <MovieList movies={movies} />
+        <div>AAAAAAAAAAA</div>
     </div>);
 }
 
