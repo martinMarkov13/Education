@@ -3,10 +3,18 @@ import { useState } from "react";
 import * as userService from "../services/userService";
 
 import User from "./User";
+import UserCreate from "./UserCreate";
+import UserDelete from "./UserDelete";
 import { UserDetails } from "./UserDetails";
 
-export default function UserList({ users }) {
+export default function UserList({
+   users, 
+   onSubmitCreateUser,
+   onUserDelete
+  }) {
   const [selectedUser, setSelectedUser] = useState(null);
+  const [showAddUser, setShowAddUser] = useState(false);
+  const [showDeleteDiagram, setShowDeleteDiagram] = useState(false)
 
   const onInfoClick = async (userId) => {
     const user = await userService.getOne(userId);
@@ -16,11 +24,33 @@ export default function UserList({ users }) {
 
   const onCloseHandler = () =>{
     setSelectedUser(null);
+    setShowAddUser(false);
+    setShowDeleteDiagram(null);
+  }
+
+  const onClickCreate = () =>{
+    setShowAddUser(true)
+  }
+
+  const onUserCreation = (e) => {
+    onSubmitCreateUser(e);
+    setShowAddUser(false)
+  }
+
+  const onDeleteClick = (userId) => {
+    setShowDeleteDiagram(userId)
+  }
+
+  const onDeleteHandler = () => {
+    onUserDelete(showDeleteDiagram)
+    onCloseHandler()
   }
 
   return (
     <>
       {selectedUser && <UserDetails {...selectedUser} onCloseHandler={onCloseHandler}/>}
+      {showAddUser && <UserCreate onCloseHandler={onCloseHandler} onSubmitCreateUser={onUserCreation} />}
+      {showDeleteDiagram && <UserDelete onCloseHandler={onCloseHandler} onDelete={onDeleteHandler} />}
       <div className="table-wrapper">
         {/* <div className="loading-shade">
         <div className="spinner"></div>
@@ -186,11 +216,17 @@ export default function UserList({ users }) {
           <tbody>
             {/*  Table row component  */}
             {users.map((u) => (
-              <User key={u._id} {...u} onInfoClick={onInfoClick} />
+            <User 
+            {...u} 
+              key={u._id} 
+              onInfoClick={onInfoClick}
+              onDeleteClick={onDeleteClick}
+              />
             ))}
           </tbody>
         </table>
       </div>
+      <button className="btn-add btn" onClick={onClickCreate}>Add new user</button>
     </>
   );
 }
