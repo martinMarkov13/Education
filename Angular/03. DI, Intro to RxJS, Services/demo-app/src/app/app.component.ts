@@ -58,21 +58,19 @@ class Car {
 }
 
 class Person {
-  balance = 0;
-  wallet: Wallet;
-  name = '';
+  wallet: Wallet; 
+  car: Car;
 
-  constructor(balance: number, name: string) {
-    this.wallet = new Wallet(1000, 'person');
-    this.name = name;
-    this.balance = balance
+  constructor(balance: number, name: string, carModel: string) {
+    this.wallet = new Wallet(balance, name);
+    this.car = new Car(carModel)
   }
 }
 
-const personIvan = new Person(4000, 'Ivan');
+const personIvan = new Person(4000, 'Ivan', "Pejo");
 personIvan.wallet.balance; //4000
 
-const personMaria = new Person(5000, 'Maria');
+const personMaria = new Person(5000, 'Maria', "Mercedes");
 personMaria.wallet.balance; //5000
 
 // BETTER PRACTICE
