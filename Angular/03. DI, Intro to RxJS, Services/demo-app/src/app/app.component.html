@@ -2,6 +2,13 @@
 <div>
   <input #inputName type="text" placeholder="name">
   <input #inputAge type="text" placeholder="age">
-  <button (click)="addUser(inputName, inputAge)">Add user</button>
+  <button (click)="setUser(inputName, inputAge)">Add user</button>
 </div>
-<app-users-list [users]="users"/>
+
+<div *ngIf="isLoading">
+  <h3>Loading......</h3>
+</div>
+
+<div *ngIf="!isLoading">
+  <app-users-list [users]="appUsers"/> 
+</div>
