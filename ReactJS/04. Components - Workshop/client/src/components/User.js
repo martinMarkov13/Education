@@ -1,4 +1,4 @@
-import { formatDate} from '../utils/dateUtils'
+import { formatDate } from "../utils/dateUtils";
 
 export default function User({
   _id,
@@ -9,7 +9,8 @@ export default function User({
   createdAt,
   phoneNumber,
   onInfoClick,
-  onDeleteClick
+  onDeleteClick,
+  onEditClick,
 }) {
   return (
     <tr>
@@ -25,9 +26,13 @@ export default function User({
       <td>{email}</td>
       <td>{phoneNumber}</td>
       <td>{formatDate(createdAt)}</td>
-    
+
       <td className="actions">
-        <button className="btn edit-btn" title="Edit">
+        <button
+          className="btn edit-btn"
+          title="Edit"
+          onClick={() => onEditClick(_id)}
+        >
           <svg
             aria-hidden="true"
             focusable="false"
@@ -44,7 +49,11 @@ export default function User({
             ></path>
           </svg>
         </button>
-        <button className="btn delete-btn" title="Delete" onClick={()=>onDeleteClick(_id)}>
+        <button
+          className="btn delete-btn"
+          title="Delete"
+          onClick={() => onDeleteClick(_id)}
+        >
           <svg
             aria-hidden="true"
             focusable="false"
@@ -61,7 +70,11 @@ export default function User({
             ></path>
           </svg>
         </button>
-        <button className="btn info-btn" title="Info" onClick={()=> onInfoClick(_id)}>
+        <button
+          className="btn info-btn"
+          title="Info"
+          onClick={() => onInfoClick(_id)}
+        >
           <svg
             aria-hidden="true"
             focusable="false"

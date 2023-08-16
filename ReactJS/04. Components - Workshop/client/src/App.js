@@ -35,6 +35,10 @@ function App() {
 
   }
 
+  const onUserUpdateSubmit = async (e)=>{
+    e.preventDefault()
+  }
+
   const onUserDelete = async (userId) => {
     await userService.remove(userId)
     setUsers(state => state.filter(u => u._id !== userId));
@@ -51,6 +55,7 @@ function App() {
           users={users} 
           onSubmitCreateUser={onSubmitCreateUser}
           onUserDelete={onUserDelete}
+          onUserUpdateSubmit={onUserUpdateSubmit}
           />
 
           

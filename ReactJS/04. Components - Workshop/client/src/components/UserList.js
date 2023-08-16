@@ -8,49 +8,76 @@ import UserDelete from "./UserDelete";
 import { UserDetails } from "./UserDetails";
 
 export default function UserList({
-   users, 
-   onSubmitCreateUser,
-   onUserDelete
-  }) {
+  users,
+  onSubmitCreateUser,
+  onUserDelete,
+  onUserUpdateSubmit,
+}) {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showAddUser, setShowAddUser] = useState(false);
-  const [showDeleteDiagram, setShowDeleteDiagram] = useState(false)
+  const [showEditUser, setShowEditUser] = useState(null);
+  const [showDeleteDiagram, setShowDeleteDiagram] = useState(false);
 
   const onInfoClick = async (userId) => {
     const user = await userService.getOne(userId);
-    
+
     setSelectedUser(user);
   };
 
-  const onCloseHandler = () =>{
+  const onCloseHandler = () => {
     setSelectedUser(null);
     setShowAddUser(false);
     setShowDeleteDiagram(null);
-  }
+    setShowEditUser(null);
+  };
 
-  const onClickCreate = () =>{
-    setShowAddUser(true)
-  }
+  const onClickCreate = () => {
+    setShowAddUser(true);
+  };
 
   const onUserCreation = (e) => {
     onSubmitCreateUser(e);
-    setShowAddUser(false)
-  }
+    setShowAddUser(false);
+  };
 
   const onDeleteClick = (userId) => {
-    setShowDeleteDiagram(userId)
-  }
+    setShowDeleteDiagram(userId);
+  };
 
   const onDeleteHandler = () => {
-    onUserDelete(showDeleteDiagram)
-    onCloseHandler()
-  }
+    onUserDelete(showDeleteDiagram);
+    onCloseHandler();
+  };
+
+  const onEditClick = async (userId) => {
+    const user = await userService.getOne(userId);
+    setShowEditUser(user);
+  };
 
   return (
     <>
-      {selectedUser && <UserDetails {...selectedUser} onCloseHandler={onCloseHandler}/>}
-      {showAddUser && <UserCreate onCloseHandler={onCloseHandler} onSubmitCreateUser={onUserCreation} />}
-      {showDeleteDiagram && <UserDelete onCloseHandler={onCloseHandler} onDelete={onDeleteHandler} />}
+      {selectedUser && (
+        <UserDetails {...selectedUser} onCloseHandler={onCloseHandler} />
+      )}
+      {showAddUser && (
+        <UserCreate
+          onCloseHandler={onCloseHandler}
+          onSubmitCreateUser={onUserCreation}
+        />
+      )}
+      {showDeleteDiagram && (
+        <UserDelete
+          onCloseHandler={onCloseHandler}
+          onDelete={onDeleteHandler}
+        />
+      )}
+      {showEditUser && (
+        <UserCreate
+          user={showEditUser}
+          onCloseHandler={onCloseHandler}
+          onSubmitCreateUser={onUserUpdateSubmit}
+        />
+      )}
       <div className="table-wrapper">
         {/* <div className="loading-shade">
         <div className="spinner"></div>
@@ -216,17 +243,20 @@ export default function UserList({
           <tbody>
             {/*  Table row component  */}
             {users.map((u) => (
-            <User 
-            {...u} 
-              key={u._id} 
-              onInfoClick={onInfoClick}
-              onDeleteClick={onDeleteClick}
+              <User
+                {...u}
+                key={u._id}
+                onInfoClick={onInfoClick}
+                onDeleteClick={onDeleteClick}
+                onEditClick={onEditClick}
               />
             ))}
           </tbody>
         </table>
       </div>
-      <button className="btn-add btn" onClick={onClickCreate}>Add new user</button>
+      <button className="btn-add btn" onClick={onClickCreate}>
+        Add new user
+      </button>
     </>
   );
 }
