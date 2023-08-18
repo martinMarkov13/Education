@@ -9,8 +9,16 @@ import "./App.css";
 import UserList from "./components/UserList";
 
 function App() {
+  const [formValues, setFormValues] = useState({
+    firstName: "",
+    lastName: "",
+  });
   const [users, setUsers] = useState([]);
 
+  const [formErrors, setFormErrors] = useState({
+    firstName: "",
+    lastName: "",
+  });
 
   useEffect(() => {
     userService
@@ -24,25 +32,45 @@ function App() {
   }, []);
 
   const onSubmitCreateUser = async (e) => {
+    // stop automatic form submit
     e.preventDefault();
+    // take form data from DOM tree
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData);
+    // Send ajax request to server
+    const createdUser = await userService.createUser(data);
+    //If succesfull add new user to the state
+    setUsers((state) => [...state, createdUser]);
+  };
 
-    const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData)
-  
-    const createdUser = await userService.createUser(data)
-    
-    setUsers(state =>  [...state, createdUser])
-
-  }
-
-  const onUserUpdateSubmit = async (e)=>{
-    e.preventDefault()
-  }
+  const onUserUpdateSubmit = async (e) => {
+    e.preventDefault();
+  };
 
   const onUserDelete = async (userId) => {
-    await userService.remove(userId)
-    setUsers(state => state.filter(u => u._id !== userId));
+    await userService.remove(userId);
+    setUsers((state) => state.filter((u) => u._id !== userId));
+  };
+
+  const onFormChange = (e) => {
+    setFormValues((state) => ({ ...state, [e.target.name]: e.target.value }));
+  };
+
+  const validateForm = (e) => {
+    const value = e.target.value;
+    const errors = {}
+
+    if(e.target.name === "firstName" && (value.length <3 || value.length > 20)){
+      errors.firstName = 'First name should be between 3 and 20 characters!';
+   }
+
+    if(e.target.name === "lastName" && (value.length <3 || value.length > 20)){
+      errors.lastName = 'Last name should be between 3 and 20 characters!'
+      }
+
+    setFormErrors(errors)
   }
+
 
   return (
     <>
@@ -51,14 +79,16 @@ function App() {
         <section className="card users-container">
           <SearchBar />
 
-          <UserList 
-          users={users} 
-          onSubmitCreateUser={onSubmitCreateUser}
-          onUserDelete={onUserDelete}
-          onUserUpdateSubmit={onUserUpdateSubmit}
+          <UserList
+            users={users}
+            onSubmitCreateUser={onSubmitCreateUser}
+            onUserUpdateSubmit={onUserUpdateSubmit}
+            onUserDelete={onUserDelete}
+            formValues={formValues}
+            onFormChange={onFormChange}
+            formErrors={formErrors}
+            validateForm = {validateForm}
           />
-
-          
         </section>
       </main>
       <Footer />

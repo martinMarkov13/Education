@@ -12,6 +12,10 @@ export default function UserList({
   onSubmitCreateUser,
   onUserDelete,
   onUserUpdateSubmit,
+  formValues,
+  onFormChange,
+  formErrors,
+  validateForm
 }) {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showAddUser, setShowAddUser] = useState(false);
@@ -63,6 +67,10 @@ export default function UserList({
         <UserCreate
           onCloseHandler={onCloseHandler}
           onSubmitCreateUser={onUserCreation}
+          formValues={formValues}
+          onFormChange={onFormChange}
+          formErrors={formErrors}
+          validateForm={validateForm}
         />
       )}
       {showDeleteDiagram && (
@@ -76,8 +84,13 @@ export default function UserList({
           user={showEditUser}
           onCloseHandler={onCloseHandler}
           onSubmitCreateUser={onUserUpdateSubmit}
+          formValues={formValues}
+          onFormChange={onFormChange}
+          formErrors={ formErrors}
+          validateForm= {validateForm}
         />
       )}
+
       <div className="table-wrapper">
         {/* <div className="loading-shade">
         <div className="spinner"></div>

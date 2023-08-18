@@ -1,7 +1,11 @@
 export default function UserCreate({
-   onCloseHandler,
-   onSubmitCreateUser
-  }) {
+  onCloseHandler,
+  onSubmitCreateUser,
+  formValues,
+  onFormChange,
+  formErrors,
+  validateForm
+}) {
   return (
     <div className="overlay">
       <div className="backdrop"></div>
@@ -35,11 +39,19 @@ export default function UserCreate({
                   <span>
                     <i className="fa-solid fa-user"></i>
                   </span>
-                  <input id="firstName" name="firstName" type="text" />
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    value={formValues.firstName}
+                    onChange={onFormChange}
+                    onBlur={validateForm}
+                  />
                 </div>
+                {formErrors.firstName &&
                 <p className="form-error">
                   First name should be at least 3 characters long!
-                </p>
+                </p>}
               </div>
               <div className="form-group">
                 <label htmlFor="lastName">Last name</label>
@@ -47,11 +59,19 @@ export default function UserCreate({
                   <span>
                     <i className="fa-solid fa-user"></i>
                   </span>
-                  <input id="lastName" name="lastName" type="text" />
+                  <input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    value={formValues.lastName}
+                    onChange={onFormChange}
+                    onBlur={validateForm}
+                  />
                 </div>
+                {formErrors.lastName &&
                 <p className="form-error">
                   Last name should be at least 3 characters long!
-                </p>
+                </p>}
               </div>
             </div>
 
@@ -146,7 +166,7 @@ export default function UserCreate({
               <button id="action-save" className="btn" type="submit">
                 Save
               </button>
-              <button id="action-cancel" className="btn" type="button">
+              <button id="action-cancel" className="btn" type="button" onClick={onCloseHandler}>
                 Cancel
               </button>
             </div>
