@@ -2,34 +2,29 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import * as gameService from '../../services/gameService'
-import * as commentService from '../../services/commentService'
 
 export function GameDetails(){
     const {gameId} = useParams()
     const [username, setUsername] = useState('')
     const [comment, setComment] = useState('')
     const [game, setGame] = useState({});
-    const [comments, setComments] = useState([])
 
     useEffect(()=> {
         gameService.getOne(gameId)
         .then(result => {
             setGame(result)
-            return commentService.getAll(gameId)
         })
-        .then(result =>{
-            setComments(result)
-        } )
+       
     },[gameId])
 
     const onCommentSubmit = async (e) => {
         e.preventDefault()
 
-        await commentService.create({
-            gameId,
+       const result =  await gameService.addComment(gameId, {
             username,
             comment
         })
+        setGame(state => ({...state, comments:{...state.comments, [result._id]:result}}))
         setUsername('')
         setComment('')
     }
@@ -55,16 +50,14 @@ export function GameDetails(){
             <div className="details-comments">
                 <h2>Comments:</h2>
                 <ul>
-                    {comments.map(c => {
+                    {game.comments && Object.values(game.comments).map(c => {
                        return(<li key={c._id} className="comment">
                         <p>{c.username}: {c.comment}</p>
                         </li>)
                     })}
                 </ul>
 
-                   {comments.length === 0 && (
-                        <p className="no-comment">No comments.</p>
-                   )}
+                   {game.comments ? Object.values(game.comments).length : <p className="no-comment">No comments.</p> }
             </div>
 
             {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
