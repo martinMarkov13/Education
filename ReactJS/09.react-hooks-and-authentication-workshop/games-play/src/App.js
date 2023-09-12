@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 
 import * as gameService from './services/gameService'
 
+import { AuthContext } from "./contexts/AuthContext";
+import * as authService from './services/authService';
+
 import { Catalogue } from "./components/Catalogue/Catalogue";
 import { CreateGame } from "./components/CreateGame/CreateGame";
 import { Footer } from "./components/Footer/Footer";
@@ -15,6 +18,7 @@ import { GameDetails } from "./components/GameDetails/GameDetails";
 function App() {
     const navigate = useNavigate()
     const [games, setGames] = useState([]);
+    const [auth, setAuth] = useState({})
 
     useEffect(()=>{
         gameService.getAll()
@@ -30,7 +34,19 @@ function App() {
        
     }
 
+    const onLoginSubmit = async (data) => {
+      try{
+        const result = await authService.login(data)
+        setAuth(result)
+        navigate('/catalogue')
+
+      }catch(error){
+        console.log("There is a problem");
+      }
+    }
+
   return (
+    <AuthContext.Provider value={{onLoginSubmit}}>
     <div id="box">
       <Header />
 
@@ -47,6 +63,7 @@ function App() {
 
       <Footer />
     </div>
+    </AuthContext.Provider>
   );
 }
 

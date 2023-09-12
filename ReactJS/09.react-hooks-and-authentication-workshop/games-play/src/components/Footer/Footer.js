@@ -1,7 +1,7 @@
 export function Footer(){
     return (
         <div>
-            <p>All rights reserved !</p>
+            <p style={{ textAlign: 'center' }}>All rights reserved !</p>
         </div>
     )
 }
