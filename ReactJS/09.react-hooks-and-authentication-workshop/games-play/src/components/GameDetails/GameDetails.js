@@ -1,21 +1,22 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import * as gameService from '../../services/gameService'
+import { gameServiceFactory } from '../../services/gameService'
+import { useService } from "../../hooks/useService";
 
 export function GameDetails(){
     const {gameId} = useParams()
     const [username, setUsername] = useState('')
     const [comment, setComment] = useState('')
     const [game, setGame] = useState({});
+    const gameService = useService(gameServiceFactory)
 
-    useEffect(()=> {
+    useEffect(() => {
         gameService.getOne(gameId)
-        .then(result => {
-            setGame(result)
-        })
-       
-    },[gameId])
+            .then(result => {
+                setGame(result);
+            })
+    }, [gameId]);
 
     const onCommentSubmit = async (e) => {
         e.preventDefault()

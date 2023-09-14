@@ -1,6 +1,7 @@
 import { AuthContext } from "../../contexts/AuthContext";
 import { useContext } from "react";
 import { useForm } from "../../hooks/useForm";
+import { Link } from "react-router-dom";
 
 export function Login() {
   const { onLoginSubmit } = useContext(AuthContext);
@@ -37,7 +38,7 @@ export function Login() {
           <input type="submit" className="btn submit" value="Login" />
           <p className="field">
             <span>
-              If you don't have profile click <a href="/register">here</a>
+              If you don't have profile click <Link to="/register">here</Link>
             </span>
           </p>
         </div>

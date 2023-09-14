@@ -1,4 +1,4 @@
-const request = async (method, url, data) => {
+const request = async (method, token, url, data) => {
   const options = {};
 
   if (method !== "GET") {
@@ -9,6 +9,13 @@ const request = async (method, url, data) => {
         "content-type": "application/json",
       };
       options.body = JSON.stringify(data);
+    }
+  }
+
+  if(token){
+    options.headers = {
+      ...options.headers,
+      "X-Authorization": token,
     }
   }
 
@@ -27,8 +34,13 @@ const request = async (method, url, data) => {
   return result;
 };
 
-export const get = request.bind(null, "GET");
-export const post = request.bind(null, "POST");
-export const del = request.bind(null, "DELETE");
-export const put = request.bind(null, "PUT");
-export const patch = request.bind(null, "PATCH");
+export const requestFactory = (token) => {
+  
+  return {
+    post: request.bind(null, "POST", token),
+    del: request.bind(null, "DELETE", token),
+    put: request.bind(null, "PUT", token),
+    get: request.bind(null, "GET", token),
+    patch: request.bind(null, "PATCH", token),
+  };
+};

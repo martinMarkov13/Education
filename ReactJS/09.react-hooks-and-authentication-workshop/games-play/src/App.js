@@ -1,10 +1,10 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import * as gameService from './services/gameService'
+import { gameServiceFactory } from './services/gameService'
 
 import { AuthContext } from "./contexts/AuthContext";
-import * as authService from './services/authService';
+import { authServiceFactory }from './services/authService';
 
 import { Catalogue } from "./components/Catalogue/Catalogue";
 import { CreateGame } from "./components/CreateGame/CreateGame";
@@ -14,11 +14,14 @@ import { Home } from "./components/Home/Home";
 import { Login } from "./components/Login/Login";
 import { Register } from "./components/Register/Register";
 import { GameDetails } from "./components/GameDetails/GameDetails";
+import { Logout } from "./components/Logout/Logout";
 
 function App() {
     const navigate = useNavigate()
     const [games, setGames] = useState([]);
     const [auth, setAuth] = useState({})
+    const gameService = gameServiceFactory(auth.accessToken)
+    const authService = authServiceFactory(auth.accessToken)
 
     useEffect(()=>{
         gameService.getAll()
@@ -31,7 +34,6 @@ function App() {
        const newGame = await gameService.create(data)
        setGames(state => [...state, newGame])
         navigate('/catalogue')
-       
     }
 
     const onLoginSubmit = async (data) => {
@@ -45,8 +47,40 @@ function App() {
       }
     }
 
+    const  onRegisterSubmit = async(values) => {
+      const { confirmPassword, ...registerData} = values;
+      if(confirmPassword !== registerData.password){
+        return;
+      }
+
+      try{
+        const result = await authService.register(registerData);
+        setAuth(result)
+        navigate('/catalogue')
+
+      } catch(error){
+        console.log(`There is a problem !`);
+      }
+    }
+
+    const onLogout = async () => {
+      await authService.logout();
+
+       setAuth({});
+    }
+
+    const context = {
+      onLoginSubmit,
+      onRegisterSubmit,
+      onLogout,
+      userId: auth._id,
+      token: auth.accessToken,
+      userEmail: auth.email,
+      isAuthenticated: !!auth.accessToken
+    }
+
   return (
-    <AuthContext.Provider value={{onLoginSubmit}}>
+    <AuthContext.Provider value={context}>
     <div id="box">
       <Header />
 
@@ -54,6 +88,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Register />} />
           <Route path="/createGame" element={<CreateGame  onCreateGameSubmitHandler={onCreateGameSubmitHandler}/>} />
           <Route path="/catalogue" element={<Catalogue games={games}/>} />
