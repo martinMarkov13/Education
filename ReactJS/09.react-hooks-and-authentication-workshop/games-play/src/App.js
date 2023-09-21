@@ -45,22 +45,22 @@ function App() {
   // const EnhancedLogin = withAuth(Login) - HOC method
 
     return (
-    <AuthProvider>
-    <div id="box">
-      <Header />
+      <AuthProvider>
+        <div id="box">  
+          <Header />
 
-      <main id="main-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/createGame" element={<CreateGame  onCreateGameSubmitHandler={onCreateGameSubmitHandler}/>} />
-          <Route path="/catalogue" element={<Catalogue games={games}/>} />
-          <Route path="/catalogue/:gameId" element={<GameDetails/>} />
-          <Route path='/catalogue/:gameId/edit' element={<EditGame onGameEditSubmit={onGameEditSubmit} />} />
-        </Routes>
-      </main>
+            <main id="main-content">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/logout" element={<Logout />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/createGame" element={<CreateGame  onCreateGameSubmitHandler={onCreateGameSubmitHandler}/>} />
+                <Route path="/catalogue" element={<Catalogue games={games}/>} />
+                <Route path="/catalogue/:gameId" element={<GameDetails/>} />
+                <Route path='/catalogue/:gameId/edit' element={<EditGame onGameEditSubmit={onGameEditSubmit} />} />
+              </Routes>
+            </main>
 
       <Footer />
     </div>

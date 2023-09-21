@@ -32,6 +32,6 @@ export const gameServiceFactory = (token) => {
     getOne,
     create,
     edit,
-    delete: deleteGame,
+        delete: deleteGame,
 };
 };
