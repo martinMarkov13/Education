@@ -1,10 +1,8 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import { gameServiceFactory } from './services/gameService'
-
-import { AuthContext } from "./contexts/AuthContext";
-import { authServiceFactory }from './services/authService';
+import { AuthProvider } from "./contexts/AuthContext";
 
 import { Catalogue } from "./components/Catalogue/Catalogue";
 import { CreateGame } from "./components/CreateGame/CreateGame";
@@ -20,9 +18,7 @@ import { EditGame } from "./components/EditGame/EditGame";
 function App() {
     const navigate = useNavigate()
     const [games, setGames] = useState([]);
-    const [auth, setAuth] = useState({})
-    const gameService = gameServiceFactory(auth.accessToken)
-    const authService = authServiceFactory(auth.accessToken)
+    const gameService = gameServiceFactory() // auth.accessToken
 
     useEffect(()=>{
         gameService.getAll()
@@ -36,40 +32,7 @@ function App() {
        setGames(state => [...state, newGame])
         navigate('/catalogue')
     }
-
-    const onLoginSubmit = async (data) => {
-      try{
-        const result = await authService.login(data)
-        setAuth(result)
-        navigate('/catalogue')
-
-      }catch(error){
-        console.log("There is a problem");
-      }
-    }
-
-    const  onRegisterSubmit = async(values) => {
-      const { confirmPassword, ...registerData} = values;
-      if(confirmPassword !== registerData.password){
-        return;
-      }
-
-      try{
-        const result = await authService.register(registerData);
-        setAuth(result)
-        navigate('/catalogue')
-
-      } catch(error){
-        console.log(`There is a problem !`);
-      }
-    }
-
-    const onLogout = async () => {
-      await authService.logout();
-
-       setAuth({});
-    }
-    
+      
     const onGameEditSubmit = async (values) => {
       const result = await gameService.edit(values._id, values);
 
@@ -78,18 +41,8 @@ function App() {
       navigate(`/catalogue/${values._id}`);
   }
 
-    const context = {
-      onLoginSubmit,
-      onRegisterSubmit,
-      onLogout,
-      userId: auth._id,
-      token: auth.accessToken,
-      userEmail: auth.email,
-      isAuthenticated: !!auth.accessToken
-    }
-
     return (
-    <AuthContext.Provider value={context}>
+    <AuthProvider>
     <div id="box">
       <Header />
 
@@ -108,7 +61,7 @@ function App() {
 
       <Footer />
     </div>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 
