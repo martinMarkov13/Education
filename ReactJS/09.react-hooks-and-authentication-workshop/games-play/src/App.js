@@ -14,6 +14,7 @@ import { Register } from "./components/Register/Register";
 import { GameDetails } from "./components/GameDetails/GameDetails";
 import { Logout } from "./components/Logout/Logout";
 import { EditGame } from "./components/EditGame/EditGame";
+// import { withAuth } from "./hoc/withAuth"; HOC method
 
 function App() {
     const navigate = useNavigate()
@@ -40,6 +41,8 @@ function App() {
 
       navigate(`/catalogue/${values._id}`);
   }
+
+  // const EnhancedLogin = withAuth(Login) - HOC method
 
     return (
     <AuthProvider>

@@ -1,9 +1,13 @@
-import { useAuthContext } from "../../contexts/AuthContext";
+// import { useAuthContext } from "../../contexts/AuthContext";
+// import { withAuth } from "../../hoc/withAuth"; Hoc stle
 import { useForm } from "../../hooks/useForm";
 import { Link } from "react-router-dom";
 
-export function Login() {
-  const { onLoginSubmit } = useAuthContext();
+export function Login({
+  auth
+}) {
+  const { onLoginSubmit } = auth;  // HOC style
+  // const { onLoginSubmit } = useAuthContext();
   const { values, changeHandler, onSubmit } = useForm({
     email: "",
     password: "",
@@ -45,3 +49,5 @@ export function Login() {
     </section>
   );
 }
+
+// export default withAuth(Login)
