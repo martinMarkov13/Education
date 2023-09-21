@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { authServiceFactory } from "../services/authService";
@@ -60,3 +60,9 @@ export const AuthProvider = ({ children }) => {
     </>
   );
 };
+
+export const useAuthContext = () => {
+    const context = useContext(AuthContext)
+
+    return context;
+}
