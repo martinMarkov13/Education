@@ -31,6 +31,11 @@ export function GameDetails() {
   const onCommentSubmit = async (values) => {
     const response = await commentService.create(gameId, values.comment)
     
+    setGame(state => ({
+      ...state, 
+      comments: [...state.comments, response]
+
+    }))
 
     // setGame((state) => ({
     //   ...state,
@@ -66,23 +71,20 @@ export function GameDetails() {
         <div className="details-comments">
           <h2>Comments:</h2>
           <ul>
-            {game.comments &&
-              Object.values(game.comments).map((c) => {
+            {game.comments && game.comments.map(c => {
                 return (
                   <li key={c._id} className="comment">
-                    <p>
-                     {c.comment}
-                    </p>
+                    <p>{c.comment}</p>
                   </li>
                 );
               })}
           </ul>
 
-          {game.comments ? (
+          {/* {game.comments ? (
             Object.values(game.comments).length
           ) : (
             <p className="no-comment">No comments.</p>
-          )}
+          )} */}
         </div>
 
         {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
