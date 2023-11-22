@@ -21,7 +21,7 @@ export const getOne = async (gameId)=> {
 }
 
 export const addComment = async(gameId, data)=>{
-  const result =await request.post(`${baseUrl}/${gameId}/comments`, data);
+  const result = await request.post(`${baseUrl}/${gameId}/comments`, data);
 
   return result;
 }

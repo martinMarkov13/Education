@@ -7,7 +7,7 @@ export function Header() {
   const { isAuthenticated, userEmail } = useContext(AuthContext);
   return (
     <header>
-      {/* <!-- Navigation --> */}
+      {/* <!-- Navigation --> */} 
       <h1>
         <Link className="home" to="/">
           GamesPlay

@@ -8,7 +8,7 @@ export function Register() {
   const { onRegisterSubmit } = useContext(AuthContext);
   const { values, changeHandler, onSubmit } = useForm(
     {
-      email: "",
+      email: "", 
       password: "",
       confirmPassword: "",
     },

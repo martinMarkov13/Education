@@ -4,7 +4,7 @@ export function CatalogueItem({
     _id,
     title,
     imageUrl,
-    category,
+    category, 
 }) {
   return (
     <div className="allGames">

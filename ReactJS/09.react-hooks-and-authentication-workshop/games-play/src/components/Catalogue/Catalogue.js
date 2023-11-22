@@ -3,7 +3,7 @@ import { CatalogueItem } from "./CatalogueItem";
 export function Catalogue({ games }) {
   return (
     <section id="catalog-page">
-      <h1>All Games</h1>
+      <h1>All Games</h1> 
       {games.map((g) => (
         <CatalogueItem key={g._id} {...g} />
       ))}
