@@ -3,7 +3,6 @@ const cubeService = require("../services/cubeService");
 
 // Path /cubes/create but it's fixed in index.js
 router.get("/create", (req, res) => {
-    console.log(cubeService.getAll());
   res.render("create");
 });
 
