@@ -4,6 +4,9 @@ const handlebars = require("express-handlebars")
 const app = express();
 const PORT = 5000;
 
+// Express config
+app.use(express.static('src/public'))
+
 // Handlebars config
 app.engine('hbs', handlebars.engine({
     extname: 'hbs',
