@@ -79,7 +79,7 @@ export function GameDetails() {
           <ul>
             {game.comments &&
               game.comments.map((c) => (
-                <li key={c._id} className="comment">
+                <li key={c._id} >
                   <p>
                     {c.author.email}: {c.comment}
                   </p>
