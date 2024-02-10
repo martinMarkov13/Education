@@ -22,6 +22,7 @@ exports.getAll = async (search, from, to) => {
 
 exports.getOne = (cubeId) => Cube.findById(cubeId); //can be used .lean() here too instead of cubeController
 // exports.getOneLean = (cubeId) => this.getOne(cubeId).lean();
+exports.getOneWithAccessories = (cubeId) => this.getOne(cubeId).populate('accessories')
 
 exports.createCube = async (cubeData) => {
   const cube = new Cube(cubeData);
