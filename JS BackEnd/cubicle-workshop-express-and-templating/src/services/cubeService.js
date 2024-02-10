@@ -1,7 +1,6 @@
 const Cube = require("../models/Cube");
 
 exports.getAll = async (search, from, to) => {
-
   let result = await Cube.find().lean();
   //TODO use mongoose to filter in the DB
   if (search) {
@@ -21,7 +20,7 @@ exports.getAll = async (search, from, to) => {
   return result;
 };
 
-exports.getOne = (cubeId) => Cube.findById(cubeId) //can be used .lean() here too instead of cubeController
+exports.getOne = (cubeId) => Cube.findById(cubeId); //can be used .lean() here too instead of cubeController
 // exports.getOneLean = (cubeId) => this.getOne(cubeId).lean();
 
 exports.createCube = async (cubeData) => {
@@ -29,4 +28,15 @@ exports.createCube = async (cubeData) => {
   await cube.save();
 
   return cube;
+};
+
+exports.attachAccessory = async (cubeId, accessoryId) => {
+  //Method 1
+  // return Cube.findByIdAndUpdate(cubeId, { $push: { accessories: accessoryId }});
+
+  //Method 2
+  const cube = await Cube.findById(cubeId)
+  cube.accessories.push(accessoryId)
+
+  return cube.save()
 };
