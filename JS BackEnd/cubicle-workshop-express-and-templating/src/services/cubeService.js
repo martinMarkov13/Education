@@ -1,49 +1,32 @@
-const uniqid = require('uniqid')
-const cubes = [
-    {
-        id: "141fdsfasf4t",
-        name: "GAN 356 Air",
-        description: "fhausdashudasuda",
-        imageUrl: "https://images-na.ssl-images-amazon.com/images/I/61izOzq%2BBAL._SY355_.jpg",
-        difficultyLevel: "3"
-    },
-    {
-        id: "352352sdasdasd",
-        name: "GG MARTO",
-        description: "fhausdashudasuda",
-        imageUrl: "https://rubik.bg/8826-large_default/originalen-kub-na-rubik-3x3x3-rubiks-phantom-cube.jpg",
-        difficultyLevel: "3"
-    }
-];
+const Cube = require("../models/Cube");
 
-exports.getAll = (search, from, to) => {
-    let result = cubes.slice();
+exports.getAll = async (search, from, to) => {
 
-    if(search){
-        result = result.filter(cube => cube.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
-    }
+  let result = await Cube.find().lean();
+  //TODO use mongoose to filter in the DB
+  if (search) {
+    result = result.filter((cube) =>
+      cube.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+    );
+  }
 
-    if(from){
-        result = result.filter(cube => cube.difficultyLevel >= Number(from))
-    }
+  if (from) {
+    result = result.filter((cube) => cube.difficultyLevel >= Number(from));
+  }
 
-    if(to){
-        result = result.filter(cube => cube.difficultyLevel <= Number(to))
-    }
+  if (to) {
+    result = result.filter((cube) => cube.difficultyLevel <= Number(to));
+  }
 
-    return result;
-}
+  return result;
+};
 
-exports.getOne = (cubeId) => cubes.find(x => x.id == cubeId )
+exports.getOne = (cubeId) => Cube.findById(cubeId) //can be used .lean() here too instead of cubeController
+// exports.getOneLean = (cubeId) => this.getOne(cubeId).lean();
 
-exports.createCube = (cubeData) => {
-    const newCube = {
-        id: uniqid(),
-        ...cubeData
-    };
+exports.createCube = async (cubeData) => {
+  const cube = new Cube(cubeData);
+  await cube.save();
 
-    cubes.push(newCube)
-
-    return newCube;
-}
-
+  return cube;
+};
