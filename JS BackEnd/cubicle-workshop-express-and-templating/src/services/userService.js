@@ -1,8 +1,7 @@
 const User = require("../models/User");
 const jwt = require("../lib/jwt");
 const bcrypt = require("bcrypt");
-
-const SECRET = "someverysecrettext";
+const { SECRET } = require("../config/config");
 
 exports.register = (userData) => User.create(userData);
 
