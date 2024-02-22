@@ -6,15 +6,15 @@ const userSchema = new mongoose.Schema({
   password: String,
 });
 
-userSchema.virtual("repeatPassword").set(function (value) {
+userSchema.virtual("repeatPassword")
+.set(function (value) {
   if (value !== this.password) {
     throw new mongoose.MongooseError("Password mismatch!");
   }
 });
 
-userSchema.pre("save", async function () {
+userSchema.pre('save', async function () {
   const hash = await bcrypt.hash(this.password, 10);
-
   this.password = hash;
 });
 
