@@ -2,7 +2,7 @@ const router = require("express").Router();
 
 const cubeService = require("../services/cubeService");
 const accessoryService = require("../services/accessoryService");
-const getDifficultyOptions = require('../utils/viewHelper')
+const { getDifficultyOptions } = require("../utils/viewHelper");
 
 // Path /cubes/create but it's fixed in index.js
 router.get("/create", (req, res) => {
@@ -23,15 +23,15 @@ router.post("/create", async (req, res) => {
 });
 
 router.get("/:cubeId/details", async (req, res) => {
-  const cube = await cubeService
-    .getOneWithAccessories(req.params.cubeId)
-    .lean();
+  const cube = await cubeService.getOneWithAccessories(req.params.cubeId).lean();
 
   if (!cube) {
     return res.redirect("/404");
   }
 
-  res.render("cube/details", { cube });
+  const isOwner = cube.owner == req.user._id;
+
+  res.render("cube/details", { cube, isOwner });
 });
 
 router.get("/:cubeId/attach-accessory", async (req, res) => {
@@ -57,7 +57,7 @@ router.post("/:cubeId/attach-accessory", async (req, res) => {
 router.get("/:cubeId/delete", async (req, res) => {
   const cube = await cubeService.getOne(req.params.cubeId).lean();
 
-  const options = getDifficultyOptions(cube.difficultyLevel)
+  const options = getDifficultyOptions(cube.difficultyLevel);
 
   res.render("cube/delete", { cube, options });
 });
@@ -69,19 +69,19 @@ router.post("/:cubeId/delete", async (req, res) => {
 });
 
 router.get("/:cubeId/edit", async (req, res) => {
-    const cube = await cubeService.getOne(req.params.cubeId).lean();
+  const cube = await cubeService.getOne(req.params.cubeId).lean();
 
-    const options = getDifficultyOptions(cube.difficultyLevel)
+  const options = getDifficultyOptions(cube.difficultyLevel);
 
-    res.render("cube/edit", { cube, options });
+  res.render("cube/edit", { cube, options });
 });
 
-router.post('/:cubeId/edit', async (req, res) => {
-    const cubeData = req.body;
+router.post("/:cubeId/edit", async (req, res) => {
+  const cubeData = req.body;
 
-    await cubeService.update(req.params.cubeId, cubeData)
+  await cubeService.update(req.params.cubeId, cubeData);
 
-    res.redirect(`/cubes/${req.params.cubeId}/details`)
-})
+  res.redirect(`/cubes/${req.params.cubeId}/details`);
+});
 
 module.exports = router;
