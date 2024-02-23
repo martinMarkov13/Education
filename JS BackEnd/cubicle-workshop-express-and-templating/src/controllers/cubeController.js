@@ -2,6 +2,7 @@ const router = require("express").Router();
 
 const cubeService = require("../services/cubeService");
 const accessoryService = require("../services/accessoryService");
+const getDifficultyOptions = require('../utils/viewHelper')
 
 // Path /cubes/create but it's fixed in index.js
 router.get("/create", (req, res) => {
@@ -56,7 +57,9 @@ router.post("/:cubeId/attach-accessory", async (req, res) => {
 router.get("/:cubeId/delete", async (req, res) => {
   const cube = await cubeService.getOne(req.params.cubeId).lean();
 
-  res.render("cube/delete", { cube });
+  const options = getDifficultyOptions(cube.difficultyLevel)
+
+  res.render("cube/delete", { cube, options });
 });
 
 router.post("/:cubeId/delete", async (req, res) => {
@@ -66,9 +69,11 @@ router.post("/:cubeId/delete", async (req, res) => {
 });
 
 router.get("/:cubeId/edit", async (req, res) => {
-  const cube = await cubeService.getOne(req.params.cubeId).lean();
+    const cube = await cubeService.getOne(req.params.cubeId).lean();
 
-  res.render("cube/edit", { cube });
+    const options = getDifficultyOptions(cube.difficultyLevel)
+
+    res.render("cube/edit", { cube, options });
 });
 
 router.post('/:cubeId/edit', async (req, res) => {
