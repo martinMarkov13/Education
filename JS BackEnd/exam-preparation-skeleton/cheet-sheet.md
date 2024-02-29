@@ -1,5 +1,5 @@
 # Cheet sheet
-
+ 
 1. Initialize project - npm init -yy
 2. Install dev enviroment and dependencies- npm i nodemon -D, and setup start script
 3. Install and setup express 
@@ -23,7 +23,7 @@
     - render home page
     - fix static files path in main.hbs -  
 7. Add controlers folder with homeController (including Router()) and add it in router.js - router.use(homeController)
-8. Add database
+8. Add database 
     - install mongoose - npm i mongoose
     - connect database - mongoose.connect('mongodb://127.0.0.1:27017/petstagram).then(()=> console.log("DB connected succesfully)).catch(err => console.log("DB error", err.message))
 
