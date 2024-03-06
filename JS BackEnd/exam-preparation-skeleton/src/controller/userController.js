@@ -5,13 +5,13 @@ router.get("/login", (req, res) => {
   res.render("users/login");
 });
 
-router.post('login', async (req, res) => {
+router.post('/login', async (req, res) => {
     const { username, password} = req.body
 
     try{
         const token = await userService.login(username, password)
 
-        res.cookie('authToken', token)
+        res.cookie('token', token)
 
     }catch(err){
         console.log(err.message);
@@ -37,7 +37,7 @@ router.post("/register", async (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-    res.clearCookie('authToken')
+    res.clearCookie('token')
     
     res.redirect('/')
 })
