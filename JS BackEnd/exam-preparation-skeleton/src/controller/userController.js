@@ -33,7 +33,8 @@ router.post("/register", async (req, res) => {
 
       res.redirect('/')
   }catch(err){
-    res.render('users/register', {error: getErrorMessage(err)})
+    console.log(userData);
+    res.render('users/register', {error: getErrorMessage(err), userData})
   }
 });
 
