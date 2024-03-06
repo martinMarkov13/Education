@@ -15,7 +15,7 @@ exports.login = async (username, password) => {
 
   if(!isValid){
     throw new Error('Invalid user or password!')
-  }
+  } 
 
   const payload = {
     _id:user._id,
@@ -35,5 +35,5 @@ exports.register = async (userData) => {
     throw new Error("Username already exists!");
   }
 
-  User.create(userData);
+  return User.create(userData);
 };
