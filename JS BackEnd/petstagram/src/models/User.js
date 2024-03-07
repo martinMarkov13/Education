@@ -6,15 +6,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Username is required!"],
     unique: [true, "Username already exists!"],
-    minLength: [3, "Username is too short!"]
+    minLength: [2, "Username is too short!"]
   },
   email: {
     type: String,
     required: [true, "Email is required!"],
+    minLength: [10, "Email is too short"]
   }, 
   password: {
     type: String,
     required: [true, "Password is required!"],
+    minLength: [4, "Password is too short!"]
   },
 });
 

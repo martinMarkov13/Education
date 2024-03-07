@@ -72,6 +72,8 @@
             <p class="petName">Name: {{photo.name}}</p>
             <p class="petAge">Age: {{photo.age}}</p>
           </div>
+
+        {{#unless isOwner}}
           <div class="comments">
             <div class="comments-top">
               <div class="userDetails">
@@ -114,7 +116,6 @@
                       </div>
                     </div>
                   </div>
-
                   <!--User's username-->
                   <p><b>StevIvanov</b>- OMG where can i get one</p>
                 </div>
@@ -122,6 +123,7 @@
             </div>
           </div>
         </div>
+
         <div class="addComments">
           <!-- Start Add Comments Form -->
           <form method="#" action="#">
@@ -136,6 +138,7 @@
             <button type="submit">Post</button>
           </form>
         </div>
+        {{/unless}}
       </div>
     </div>
   </div>
