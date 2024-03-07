@@ -35,4 +35,25 @@ router.get("/:photoId/details", async (req, res) => {
   res.render(`photos/details`, { photo, isOwner });
 });
 
+router.get('/:photoId/delete', async (req, res) => {
+    const photoId = req.params.photoId;
+
+    await photoService.deletePhoto(photoId)
+
+    res.redirect('/photos/catalog')
+})
+
+router.get('/:photoId/edit',  (req, res) => {
+    res.render('photos/edit', )
+})
+
+router.post('/:photoId/edit', async (req, res)=> {
+    const photoId = req.params.photoId;
+    const photoData = req.body;
+
+    await photoService.editPhoto(photoId, photoData)
+
+    res.redirect(`/photos/${photoId}/details`)
+})
+
 module.exports = router;
