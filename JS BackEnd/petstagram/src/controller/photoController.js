@@ -43,8 +43,11 @@ router.get('/:photoId/delete', async (req, res) => {
     res.redirect('/photos/catalog')
 })
 
-router.get('/:photoId/edit',  (req, res) => {
-    res.render('photos/edit', )
+router.get('/:photoId/edit', async (req, res) => {
+    const photoId = req.params.photoId;
+    const photo = await photoService.getOne(photoId).lean();
+
+    res.render('photos/edit', { photo } )
 })
 
 router.post('/:photoId/edit', async (req, res)=> {
