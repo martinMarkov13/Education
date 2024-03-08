@@ -9,7 +9,7 @@ const photoSchema = new mongoose.Schema({
   image: {
     type: String,
     required: [true, "Image is required"],
-    match: [/https:\/\/?/, "Email is not in the correct format"]
+    match: [/^https:\/\//, "Email is not in the correct format"]
   },
   age: {
     type: Number,

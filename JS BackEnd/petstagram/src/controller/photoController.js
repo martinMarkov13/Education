@@ -28,11 +28,9 @@ router.post("/create", isAuth, async (req, res) => {
 
 router.get("/:photoId/details", async (req, res) => {
   const photoId = req.params.photoId;
-
-  const photo = await photoService.getOne(photoId).lean();
-
+  const photo = await photoService.getOne(photoId).populate('commentList.user').lean();
   const isOwner = req.user?._id == photo.owner._id;
-    console.log("Photo:", photo);
+
   res.render(`photos/details`, { photo, isOwner });
 });
 
@@ -65,12 +63,15 @@ router.post("/:photoId/comments", async (req, res) => {
   const photoId = req.params.photoId;
   const { comment } = req.body;
   const user = req.user._id;
+  const photo = await photoService.getOne(photoId).populate('commentList.user').lean();
 
   try{
       await photoService.addComment(photoId, { user, comment });
+
       res.redirect(`/photos/${photoId}/details`);
+      
   }catch(err) {
-      res.redirect(`/photos/${photoId}/details`, {error: getErrorMessage(err)});
+      res.render(`photos/details`, { photo, error: getErrorMessage(err)});
   }
 });
 
