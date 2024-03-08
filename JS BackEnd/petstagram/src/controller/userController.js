@@ -2,6 +2,7 @@ const router = require("express").Router();
 const  userService  = require("../services/userService");
 const { getErrorMessage } = require("../utils/errorHelpers");
 const { isLogged, isAuth } = require('../middlewares/authMiddleware')
+const photoService = require('../services/photoService')
 
 router.get("/login", isLogged ,(req, res) => { 
   res.render("users/login");
@@ -45,8 +46,10 @@ router.get('/logout', isAuth, (req, res) => {
     res.redirect('/')
 })
 
-router.get('/profile', (req, res) => {
-  res.render('users/profile')
+router.get('/profile', async (req, res) => {
+    const photos = await photoService.getMine(req.user._id).lean()
+
+    res.render('users/profile', { photos, photoCount: photos.length})
 })
 
 module.exports = router;
