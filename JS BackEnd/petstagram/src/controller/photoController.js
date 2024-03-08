@@ -1,8 +1,7 @@
 const router = require("express").Router();
 const photoService = require("../services/photoService");
 const { getErrorMessage } = require("../utils/errorHelpers");
-const {isAuth} = require('../middlewares/authMiddleware')
-
+const { isAuth } = require("../middlewares/authMiddleware");
 
 router.get("/catalog", async (req, res) => {
   const photos = await photoService.getAll().lean();
@@ -33,34 +32,46 @@ router.get("/:photoId/details", async (req, res) => {
   const photo = await photoService.getOne(photoId).lean();
 
   const isOwner = req.user?._id == photo.owner._id;
-
+    console.log("Photo:", photo);
   res.render(`photos/details`, { photo, isOwner });
 });
 
-router.get('/:photoId/delete', isAuth, async (req, res) => {
-    const photoId = req.params.photoId;
-    const photo = await photoService.getOne(photoId).lean();
+router.get("/:photoId/delete", isAuth, async (req, res) => {
+  const photoId = req.params.photoId;
+  const photo = await photoService.getOne(photoId).lean();
 
-    await photoService.deletePhoto(photoId)
+  await photoService.deletePhoto(photoId);
 
-    res.redirect('/photos/catalog')
-})
+  res.redirect("/photos/catalog");
+});
 
-router.get('/:photoId/edit', isAuth, async (req, res) => {
-    const photoId = req.params.photoId;
-    const photo = await photoService.getOne(photoId).lean();
+router.get("/:photoId/edit", isAuth, async (req, res) => {
+  const photoId = req.params.photoId;
+  const photo = await photoService.getOne(photoId).lean();
 
-    res.render('photos/edit', { photo } )
-})
+  res.render("photos/edit", { photo });
+});
 
-router.post('/:photoId/edit', async (req, res)=> {
-    const photoId = req.params.photoId;
-    const photoData = req.body;
+router.post("/:photoId/edit", async (req, res) => {
+  const photoId = req.params.photoId;
+  const photoData = req.body;
 
-    await photoService.editPhoto(photoId, photoData)
+  await photoService.editPhoto(photoId, photoData);
 
-    res.redirect(`/photos/${photoId}/details`)
-})
+  res.redirect(`/photos/${photoId}/details`);
+});
 
+router.post("/:photoId/comments", async (req, res) => {
+  const photoId = req.params.photoId;
+  const { comment } = req.body;
+  const user = req.user._id;
+
+  try{
+      await photoService.addComment(photoId, { user, comment });
+      res.redirect(`/photos/${photoId}/details`);
+  }catch(err) {
+      res.redirect(`/photos/${photoId}/details`, {error: getErrorMessage(err)});
+  }
+});
 
 module.exports = router;

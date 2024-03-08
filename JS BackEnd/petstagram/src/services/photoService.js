@@ -10,4 +10,12 @@ exports.deletePhoto = (photoId) => Photo.findByIdAndDelete(photoId);
 
 exports.editPhoto = (photoId, photoData) => Photo.findByIdAndUpdate(photoId, photoData);
 
+exports.addComment = async (photoId, commentData) => {
+    const photo = await Photo.findById(photoId);
+    
+    photo.commentList.push(commentData)
+
+    return photo.save()
+}
+
 exports.getMine = (userId) => Photo.find({ owner: userId });
