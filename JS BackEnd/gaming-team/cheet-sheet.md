@@ -1,4 +1,4 @@
-# Cheet sheet
+# Cheet sheet 
  
 1. Initialize project - npm init -yy
 2. Install dev enviroment and dependencies- npm i nodemon -D, and setup start script
@@ -17,7 +17,7 @@
         extname: 'hbs'
     }))
         app.set('view engine', 'hbs')
-    - config views folder - app.set('view', 'src/views') in index.js
+    - config views folder - app.set('views', 'src/views') in index.js
     - add main layout in views/layouts - main.hbs
     - add partials folder in views/partials
     - render home page
