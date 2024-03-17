@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class NavigationComponent implements OnInit {
   @Input('title') titleFromApp: string = '';
-  @Input('activeUsers') activeUsers: {name:string, age:number}[] = [];
+  @Input('activeUsers') activeUsersFromParent: {name:string, age:number}[] = [];
   @Output() onChildOutput= new EventEmitter<boolean>()
 
   isActive = false;

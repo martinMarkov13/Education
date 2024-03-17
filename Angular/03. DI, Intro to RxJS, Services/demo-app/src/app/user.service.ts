@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class UserService {
-  users: User[] = [];
+  users: User[] = []; 
 
   constructor(private http: HttpClient){
     // setInterval(()=>{
