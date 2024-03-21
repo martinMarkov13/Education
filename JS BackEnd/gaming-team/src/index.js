@@ -1,12 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const path = require("path");
+const cookieParser = require('cookie-parser')
 const handlebars = require("express-handlebars");
 
+const path = require("path");
 const app = express();
 const router = require("./router");
-const cookieParser = require('cookie-parser')
-const {auth} = require('./middlewares/authMiddleware')
+const { auth } = require('./middlewares/authMiddleware')
 
 app.use(express.static(path.resolve(__dirname, "public")));
 app.use(express.urlencoded({ extended: false }));

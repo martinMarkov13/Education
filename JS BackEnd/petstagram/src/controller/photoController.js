@@ -9,7 +9,7 @@ router.get("/catalog", async (req, res) => {
   res.render("photos/catalog", { photos });
 });
 
-router.get("/create", isAuth, (req, res) => {
+router.get("/create", isAuth, (req, res) => { 
   res.render("photos/create");
 });
 
