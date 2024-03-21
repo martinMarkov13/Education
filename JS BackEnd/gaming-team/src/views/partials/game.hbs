@@ -1,13 +1,13 @@
 <div class="game">
   <div class="game-img">
-    <img src="/images/mortal-kombat.png" />
+    <img src="{{image}}" />
   </div>
   <div class="game-info">
-    <h1>{{name}}:</h1>
-    <p><span>Platform: </span>PC</p>
-    <p><span>{{genre}}: </span>Action</p>
-    <p><span>{{price}}: </span>$78</p>
+    <h1>{{name}}</h1>
+    <p><span>Platform: </span>{{platform}}</p>
+    <p><span>Genre: </span>{{genre}}</p>
+    <p><span>Price: </span>{{genre}}</p>
   </div>
 
-  <a href="/games/details" class="btn-details">Details</a>
+  <a href="/games/{{_id}}/details" class="btn-details">Details</a>
 </div>

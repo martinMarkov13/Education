@@ -1,9 +1,9 @@
 const router = require('express').Router()
 const gameService = require('../services/gameService')
 
-router.get("/catalog", (req, res) => {
+router.get("/catalog", async (req, res) => {
     
-    const games = gameService.getAll().lean()
+    const games = await gameService.getAll().lean()
 
     res.render('games/catalog', { games })
 })
@@ -26,13 +26,15 @@ router.post('/create', async (req, res) => {
 })
 
 router.get('/:gameId/details', async (req, res) => {
-    const gameId = req.params;
-    const game = await gameService.getOneGame(gameId)
+    const gameId = req.params.gameId;
+    const game = await gameService.getOneGame(gameId).lean()
     const isOwner = req.user?._id == game.owner._id
     
-    console.log(game);
     res.render('games/details', {game, isOwner})
 })
 
+router.get('/search', (req, res) => {
+    res.render('games/search')
+})
 
 module.exports = router;

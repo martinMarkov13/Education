@@ -26,19 +26,10 @@ const gameSchema = new mongoose.Schema({
     enum: ["PC", "Nintendo", "PS4", "PS5", "XBOX"],
     required: true,
   },
-  boughtBy: [
-    {
-      user: {
-        type: mongoose.Types.ObjectId,
-        required: [true, "User is required!"],
-        ref: "User",
-      },
-    },
-  ],
   owner: {
     type: mongoose.Types.ObjectId,
-    ref: "User",
-  },
+    ref: 'User'
+  }
 });
 
 const Game = mongoose.model("Game", gameSchema);
