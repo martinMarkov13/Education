@@ -37,4 +37,31 @@ router.get('/search', (req, res) => {
     res.render('games/search')
 })
 
+router.get('/:gameId/delete', async (req, res) => {
+    const gameId = req.params.gameId;
+
+    await gameService.deleteGame(gameId)
+    res.redirect('/games/catalog')
+})
+
+router.get('/:gameId/edit', async (req, res) => {
+    const gameId = req.params.gameId;
+
+    const game =  await gameService.getOneGame(gameId).lean()
+    
+    res.render(`games/edit`, {game})
+})
+
+router.post('/:gameId/edit', async (req, res) => {
+    const gameData = req.body;
+    const gameId = req.params.gameId;
+
+    try{
+        await gameService.updateGame(gameId, gameData)
+        res.redirect(`/games/${gameId}/details`)
+    }catch(err){
+        res.render('games/edit', { error: err})
+    }
+})
+
 module.exports = router;
