@@ -125,17 +125,17 @@ footer p {
   border-radius: 20px;
 }
 
-.errorContainer {
-  -moz-animation: cssAnimation 0s ease-in 2s forwards;
+/* .errorContainer {
+  -moz-animation: cssAnimation 0s ease-in 2s forwards; */
   /* Firefox */
-  -webkit-animation: cssAnimation 0s ease-in 2s forwards;
+  /* -webkit-animation: cssAnimation 0s ease-in 2s forwards; */
   /* Safari and Chrome */
-  -o-animation: cssAnimation 0s ease-in 2s forwards;
+  /* -o-animation: cssAnimation 0s ease-in 2s forwards; */
   /* Opera */
-  animation: cssAnimation 0s ease-in 2s forwards;
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-}
+  /* animation: cssAnimation 0s ease-in 2s forwards; */
+  /* -webkit-animation-fill-mode: forwards; */
+  /* animation-fill-mode: forwards; */
+/* } */
 
 @keyframes cssAnimation {
   to {

@@ -3,7 +3,7 @@ const gameService = require('../services/gameService')
 
 router.get("/catalog", async (req, res) => {
     
-    const games = await gameService.getAll().lean()
+    const games = await gameService.getAll()
 
     res.render('games/catalog', { games })
 })
@@ -28,13 +28,25 @@ router.post('/create', async (req, res) => {
 router.get('/:gameId/details', async (req, res) => {
     const gameId = req.params.gameId;
     const game = await gameService.getOneGame(gameId).lean()
-    const isOwner = req.user?._id == game.owner._id
+    const isOwner = req.user?._id == game.owner._id;
+    const isBought = await gameService.isBought(gameId, req.user?._id)
     
-    res.render('games/details', {game, isOwner})
+    res.render('games/details', {game, isOwner, isBought})
 })
 
-router.get('/search', (req, res) => {
-    res.render('games/search')
+router.get('/search', async (req, res) => {
+    const games = await gameService.getAll()
+
+    res.render('games/search', {games})
+})
+
+router.post('/search', async (req, res) => {
+    const {search, platform} = req.body;
+
+    const games = await gameService.getAll(search, platform)
+   
+    res.render('games/search', {games})
+    
 })
 
 router.get('/:gameId/delete', async (req, res) => {
@@ -61,6 +73,17 @@ router.post('/:gameId/edit', async (req, res) => {
         res.redirect(`/games/${gameId}/details`)
     }catch(err){
         res.render('games/edit', { error: err})
+    }
+})
+
+router.get('/:gameId/buy', async (req, res) => {
+    const gameId = req.params.gameId;
+    const buyerId = req.user._id;
+    try{
+        await gameService.buyGame(gameId, buyerId)
+        res.redirect(`/games/catalog`)
+    }catch(err){
+        console.log(err.message);
     }
 })
 

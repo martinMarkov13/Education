@@ -4,22 +4,27 @@ const gameSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-  },
+    minLength: [4, "The name must be at least 4 characters long"]
+  }, 
   image: {
     type: String,
     required: true,
+    match: [/^https:\/\//, "Email is not in the correct format"]
   },
   price: {
     type: Number,
     required: true,
+    min: 1
   },
   description: {
     type: String,
     required: true,
+    minLength: [10, "The description must be at least 10 characters long"]
   },
   genre: {
     type: String,
     required: true,
+    minLength: [2, "The genre must be at least 2 characters long"]
   },
   platform: {
     type: String,

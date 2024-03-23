@@ -20,7 +20,10 @@
             {{#if isAuthenticated}}
                 <li><a href="/games/search">Search</a></li>
                 <li><a href="/games/create">Create Game Offer</a></li>
-                <li><a href="/users/logout">Logout</a></li>
+                <li>
+                    <span>Welcome, {{ user.username}}  </span>
+                    <a href="/users/logout"> Logout</a>
+                </li>
             {{else}}
                 <li><a href="/users/login">Login</a></li>
                 <li><a href="/users/register">Register</a></li>
