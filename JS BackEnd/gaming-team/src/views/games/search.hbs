@@ -17,14 +17,16 @@
 
             <div class="search-result">
                 <div class="search-list">
+                    {{#if games}}
                     {{#each games}}
                         {{>game}}
                     {{/each}}
                 </div>
             </div>
-
-            <!-- <div class="no-match">
+            {{else}}
+            <div class="no-match">
                 <p>No match was found!</p>
-            </div> -->
+            </div> 
+            {{/if}}
         </section>
     </main>

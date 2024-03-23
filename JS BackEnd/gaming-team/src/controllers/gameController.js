@@ -43,8 +43,8 @@ router.get('/search', async (req, res) => {
 router.post('/search', async (req, res) => {
     const {search, platform} = req.body;
 
-    const games = await gameService.getAll(search, platform)
-   
+    const games = await gameService.getSearched(search, platform)
+       
     res.render('games/search', {games})
     
 })
