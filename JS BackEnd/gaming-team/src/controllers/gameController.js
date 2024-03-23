@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const gameService = require('../services/gameService')
+const {isAuthorized} = require('../middlewares/authMiddleware')
+
 
 router.get("/catalog", async (req, res) => {
     
@@ -8,11 +10,11 @@ router.get("/catalog", async (req, res) => {
     res.render('games/catalog', { games })
 })
 
-router.get('/create', (req, res)=> {
+router.get('/create', isAuthorized, (req, res)=> {
     res.render('games/create')
 })
 
-router.post('/create', async (req, res) => {
+router.post('/create', isAuthorized, async (req, res) => {
     const gameData = req.body;
     const owner = req.user._id;
 
@@ -34,13 +36,13 @@ router.get('/:gameId/details', async (req, res) => {
     res.render('games/details', {game, isOwner, isBought})
 })
 
-router.get('/search', async (req, res) => {
+router.get('/search', isAuthorized, async (req, res) => {
     const games = await gameService.getAll()
 
     res.render('games/search', {games})
 })
 
-router.post('/search', async (req, res) => {
+router.post('/search', isAuthorized, async (req, res) => {
     const {search, platform} = req.body;
 
     const games = await gameService.getSearched(search, platform)
@@ -49,14 +51,14 @@ router.post('/search', async (req, res) => {
     
 })
 
-router.get('/:gameId/delete', async (req, res) => {
+router.get('/:gameId/delete', isAuthorized, async (req, res) => {
     const gameId = req.params.gameId;
 
     await gameService.deleteGame(gameId)
     res.redirect('/games/catalog')
 })
 
-router.get('/:gameId/edit', async (req, res) => {
+router.get('/:gameId/edit', isAuthorized, async (req, res) => {
     const gameId = req.params.gameId;
 
     const game =  await gameService.getOneGame(gameId).lean()
@@ -64,7 +66,7 @@ router.get('/:gameId/edit', async (req, res) => {
     res.render(`games/edit`, {game})
 })
 
-router.post('/:gameId/edit', async (req, res) => {
+router.post('/:gameId/edit', isAuthorized, async (req, res) => {
     const gameData = req.body;
     const gameId = req.params.gameId;
 
@@ -76,7 +78,7 @@ router.post('/:gameId/edit', async (req, res) => {
     }
 })
 
-router.get('/:gameId/buy', async (req, res) => {
+router.get('/:gameId/buy', isAuthorized, async (req, res) => {
     const gameId = req.params.gameId;
     const buyerId = req.user._id;
     try{

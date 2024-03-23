@@ -30,3 +30,11 @@ exports.isAuthorized = async (req, res, next) => {
     
     next()
 }
+
+exports.isLogged = async (req, res, next) => {
+    if(req.user){
+        return res.redirect('/')
+    }
+  
+    next()
+  }

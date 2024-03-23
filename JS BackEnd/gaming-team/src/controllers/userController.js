@@ -1,9 +1,9 @@
 const router = require('express').Router()
 const userService = require('../services/userService')
-const {isAuthorized} = require('../middlewares/authMiddleware')
+const {isLogged,isAuthorized} = require('../middlewares/authMiddleware')
 
 
-router.get('/login', (req, res) => {
+router.get('/login', isLogged, (req, res) => {
     res.render('users/login')
 })
 
@@ -21,7 +21,7 @@ router.post('/login', async (req, res) => {
     }
 })
 
-router.get('/register', (req, res) => {
+router.get('/register', isLogged, (req, res) => {
     res.render('users/register')
 })
 
