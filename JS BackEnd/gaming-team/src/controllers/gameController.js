@@ -30,6 +30,7 @@ router.post('/create', isAuthorized, async (req, res) => {
 router.get('/:gameId/details', async (req, res) => {
     const gameId = req.params.gameId;
     const game = await gameService.getOneGame(gameId).lean()
+    console.log(game);
     const isOwner = req.user?._id == game.owner._id;
     const isBought = await gameService.isBought(gameId, req.user?._id)
     
