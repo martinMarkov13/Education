@@ -20,7 +20,7 @@ exports.donate = async (animalId, donatorId) => {
     }
 }
 
-exports.delete = (animalId) => Animal.findByIdAndDelete(animalId)
+exports.deleteAnimal = (animalId) => Animal.findByIdAndDelete(animalId)
 
 exports.editAnimal = (animalId, animalData) => Animal.findByIdAndUpdate(animalId, animalData)
 
