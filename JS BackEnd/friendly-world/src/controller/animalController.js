@@ -44,7 +44,7 @@ router.get('/:animalId/donate', async (req, res) => {
 
         res.redirect(`/animals/${animalId}/details`)
     }catch(err){
-        res.render('animals/details', {error: getErrorMessage(err)})
+        res.redirect('/')
     }
 })
 

@@ -16,7 +16,7 @@ exports.donate = async (animalId, donatorId) => {
     
         return animal.save() 
     }else{
-        throw new Error("Already donated!")
+        throw new Error("Already donated!") 
     }
 }
 
