@@ -1,6 +1,8 @@
 const router = require("express").Router();
-const  userService  = require("../services/userService");
+const userService  = require("../services/userService");
+const creatureService = require('../services/creatureService')
 const { getErrorMessage } = require("../utils/errorHelpers");
+
 
 router.get("/login", (req, res) => {
   res.render("users/login");
@@ -42,6 +44,13 @@ router.get('/logout', (req, res) => {
     res.clearCookie('token')
     
     res.redirect('/')
+})
+
+router.get('/profile', async (req, res) => {
+  const myId = req.user._id;
+  const myCreatures = await creatureService.getMine(myId)
+
+  res.render('users/my-posts', {myCreatures})
 })
 
 module.exports = router;

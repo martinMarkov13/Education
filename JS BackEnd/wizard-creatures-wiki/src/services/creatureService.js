@@ -23,3 +23,5 @@ exports.vote = async (creatureId, user) => {
 }
 
 exports.edit = (creatureId, creatureData) => Creature.findByIdAndUpdate(creatureId, creatureData)
+
+exports.getMine = (userId) => Creature.find({owner: userId}).populate('owner').lean()
