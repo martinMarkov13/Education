@@ -60,4 +60,24 @@ router.get('/:creatureId/vote', async (req, res) => {
     res.redirect(`/creatures/${creatureId}/details`)
 })
 
+router.get('/:creatureId/edit', async (req, res) => {
+    const creatureId = req.params.creatureId;
+    const creature = await creatureService.getCreature(creatureId) 
+
+    res.render('creatures/edit', {creature})
+})
+
+router.post('/:creatureId/edit', async (req, res) => {
+    const creatureId = req.params.creatureId;
+    const creatureData = req.body;
+
+    try{
+        await creatureService.edit(creatureId, creatureData)
+
+        res.redirect(`/creatures/${creatureId}/details`)
+    }catch(err){
+        res.redirect(`/creatures/${creatureId}/details`, {error: getErrorMessage(err)})
+    }
+})
+
 module.exports = router;

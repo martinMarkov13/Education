@@ -21,3 +21,5 @@ exports.vote = async (creatureId, user) => {
 
     throw new Error("You have alread voted!")
 }
+
+exports.edit = (creatureId, creatureData) => Creature.findByIdAndUpdate(creatureId, creatureData)
