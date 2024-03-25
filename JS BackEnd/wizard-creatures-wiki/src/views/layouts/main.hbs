@@ -16,7 +16,7 @@
       <!-- You can choose to display the first error or all of them (error message/s in your opinion) -->
         {{#if error}}
         <div class="error-container">
-            <p>Error</p>
+            <p>{{error}}</p>
         </div>
         {{/if}}
       <nav>
@@ -25,10 +25,10 @@
 
         <ul class="menu">
           <li><a href="/">Home</a></li>
-          <li><a href="#">All Posts</a></li>
+          <li><a href="/creatures/all-posts">All Posts</a></li>
           <!-- Logged users -->
           {{#if isAuthenticated}}
-          <li><a href="#">Create Post</a></li>
+          <li><a href="/creatures/create">Create Post</a></li>
           <li><a href="#">Profile</a></li>
           <li><a href="/users/logout">Logout</a></li>
           {{else}}
