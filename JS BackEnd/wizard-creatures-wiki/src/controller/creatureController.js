@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const creatureService = require('../services/creatureService')
+const userService = require('../services/userService')
 const { getErrorMessage } = require("../utils/errorHelpers");
 
 
@@ -41,12 +42,12 @@ router.get('/:creatureId/details', async (req, res) => {
     const creature = await creatureService.getCreature(creatureId)
     const isCreator = req.user?._id == creature.owner._id
     const user = req.user?._id;
-
-    const hasVoted = await creatureService.hasAlreadyVoted(creatureId, user)
-
     
+    const hasVoted = creature.votes.toString().includes(user)
+
+    const voters = await userService.getVoters(creature.votes)
     
-    res.render('creatures/details', { creature, isCreator, hasVoted })
+    res.render('creatures/details', { creature, isCreator, hasVoted, voters })
 })
 
 router.get('/:creatureId/vote', async (req, res) => {

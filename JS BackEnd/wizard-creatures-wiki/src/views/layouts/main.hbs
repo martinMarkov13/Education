@@ -30,7 +30,7 @@
           {{#if isAuthenticated}}
           <li><a href="/creatures/create">Create Post</a></li>
           <li><a href="#">Profile</a></li>
-          <li><a href="/users/logout">Logout</a></li>
+          <li><span>{{user.email}}</span><a href="/users/logout">Logout</a></li>
           {{else}}
           <!-- Guest users -->
           <li><a href="/users/register">Register</a></li>

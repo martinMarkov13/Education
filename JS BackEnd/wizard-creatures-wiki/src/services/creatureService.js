@@ -21,9 +21,3 @@ exports.vote = async (creatureId, user) => {
 
     throw new Error("You have alread voted!")
 }
-
-exports.hasAlreadyVoted = async (creatureId, user) => {
-    const creature = await Creature.findById(creatureId)
-
-    return creature.votes.includes(user)
-}

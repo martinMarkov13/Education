@@ -35,6 +35,12 @@ exports.register = async (userData) => {
   return token;
 };
 
+exports.getVoters = async (users) => {
+  const voters = await User.find({_id : users}).lean()
+
+  return voters;
+}
+
 async function generateToken(user){
   const payload = {
     _id:user._id,

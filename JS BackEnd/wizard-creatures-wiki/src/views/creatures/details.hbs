@@ -55,10 +55,12 @@
                                 <p class="PV">Total rating of votes: {{creature.votes.length}}</p>
                             </div>
                             <!-- If there are already people who have cast their vote for the post, separate their emails with a comma and a space ", " -->
-                            <p class="disc">People who voted for the post - {{creature.votes}}</p>
-
+                            {{#if voters}}
+                            <p class="disc">People who voted for the post - {{#each voters}}{{email}}, {{/each}}</p>
+                            {{else}}
                             <!-- If not display: -->
                             <p class="disc">People who voted for the post - No one has voted yet.</p>
+                            {{/if}}
                         </div>
                     </div>
                 </div>
