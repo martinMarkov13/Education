@@ -23,10 +23,10 @@ exports.login = async (email, password) => {
 };
 
 exports.register = async (userData) => {
-  const user = await User.findOne({ username: userData.username });
+  const user = await User.findOne({ email: userData.email });
 
   if (user) {
-    throw new Error("Username already exists!");
+    throw new Error("Email already exists!");
   }
   const createUser = await User.create(userData)
   

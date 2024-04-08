@@ -27,7 +27,7 @@ router.get("/register",isLogged, (req, res) => {
 
 router.post("/register", isLogged ,async (req, res) => {
   const userData = req.body;
-
+  
   try{
       const token = await userService.register(userData);
 
@@ -39,7 +39,7 @@ router.post("/register", isLogged ,async (req, res) => {
   }
 });
 
-router.get('/logout', isLogged, (req, res) => {
+router.get('/logout', (req, res) => {
     res.clearCookie('token')
     
     res.redirect('/')

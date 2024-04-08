@@ -15,9 +15,10 @@ router.get('/create', (req, res) => {
 
 router.post('/create', async (req, res)=> {
     const stoneData = req.body;
+    const owner = req.user._id;
     
     try{
-        await stoneService.create(stoneData)
+        await stoneService.create({...stoneData, owner})
 
         res.redirect('/stones/dashboard')
     }catch(err){
@@ -29,8 +30,41 @@ router.post('/create', async (req, res)=> {
 router.get('/:stoneId/details', async (req, res) => {
     const stoneId = req.params.stoneId;
     const stone = await stoneService.findOne(stoneId)
+    
+    const isCreator = stone.owner._id == req.user?._id;
 
-    res.render('stones/details', { stone })
+    res.render('stones/details', { stone, isCreator })
+})
+
+router.get('/:stoneId/delete', async (req, res) =>{
+    const stoneId = req.params.stoneId;
+
+    try{
+        await stoneService.deleteStone(stoneId)
+    }catch(err){
+        res.render('stones/dashboard', {error: getErrorMessage(err)})
+    }
+})
+
+router.get('/:stoneId/edit', async (req, res) => {
+    const stoneId = req.params.stoneId;
+    const stone = await stoneService.findOne(stoneId)
+
+    res.render('stones/edit', { stone })
+})
+
+router.post('/:stoneId/edit', async (req, res) => {
+    const stoneId = req.params.stoneId;
+    const stoneData = req.body;
+
+    const stone = await stoneService.findOne(stoneId)
+    try{
+        await stoneService.editStone(stone, stoneData)
+        res.redirect(`/stones/${stoneId}/details`)
+    }catch(err){
+        res.render(`stones/${stoneId}/edit`, { stone, error: getErrorMessage(err) })
+    }
+
 })
 
 router.get('/search', (req, res) => {
