@@ -1,8 +1,11 @@
 const router = require('express').Router()
+const stoneService = require('../services/stoneService')
 
+router.get("/", async (req, res) => {
+    const stones =  await stoneService.getAll()
+    const lastThree = stones.slice(-3)
 
-router.get("/", (req, res) => {
-    res.render("home");
+    res.render("home", {lastThree});
 });
 
 router.get('/404', (req, res) =>{
