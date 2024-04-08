@@ -7,8 +7,8 @@ const stoneController = require('./controller/stoneController')
 router.use(homeController)
 router.use('/users', userController)
 router.use('/stones', stoneController)
-router.get('*', (req, res) => {
-    res.redirect('404')
-})
+router.use((req, res) => {
+    res.status(404).redirect('/404');
+});
 
 module.exports = router;

@@ -30,14 +30,17 @@ router.post('/create', async (req, res)=> {
 router.get('/:stoneId/details', async (req, res) => {
     const stoneId = req.params.stoneId;
     const stone = await stoneService.findOne(stoneId)
+
+    const hasLiked = stone.likedList.toString().includes(req.user?._id)
     
     const isCreator = stone.owner._id == req.user?._id;
 
-    res.render('stones/details', { stone, isCreator })
+    res.render('stones/details', { stone, isCreator, hasLiked })
 })
 
 router.get('/:stoneId/delete', async (req, res) =>{
     const stoneId = req.params.stoneId;
+    const stone = await stoneService.findOne(stoneId)
     const isCreator = stone.owner._id == req.user?._id;
 
     if(!isCreator){
@@ -45,6 +48,8 @@ router.get('/:stoneId/delete', async (req, res) =>{
     }else{
          try{
             await stoneService.deleteStone(stoneId)
+
+            res.redirect('/stones/dashboard')
         }catch(err){
             res.render('stones/dashboard', {error: getErrorMessage(err)})
         }
@@ -74,12 +79,37 @@ router.post('/:stoneId/edit', async (req, res) => {
         await stoneService.editStone(stone, stoneData)
         res.redirect(`/stones/${stoneId}/details`)
     }catch(err){
-        res.render(`stones/${stoneId}/edit`, { stone, error: getErrorMessage(err) })
+        res.render(`stones/edit`, { stone, error: getErrorMessage(err) })
     }
 })
 
-router.get('/search', (req, res) => {
-    res.render('stones/search')
+router.get('/:stoneId/like', async (req, res) => {
+    const stoneId = req.params.stoneId;
+    const user = req.user?._id;
+    const stone = await stoneService.findOne(stoneId)
+
+    try{
+         await stoneService.likePost(stoneId, user)
+
+         res.redirect(`/stones/${stoneId}/details`)
+    }catch(err){
+        res.render(`stones/details`, {stone, error: getErrorMessage(err)})
+    }
+})
+
+router.get('/search', async (req, res) => {
+    const stones = await stoneService.getAll()
+    
+    res.render('stones/search', { stones })
+})
+
+router.post('/search', async (req, res) => {
+    const {search} = req.body;
+
+    const stones = await stoneService.searchStone(search)
+    
+    res.render('stones/search', { stones })
+    
 })
 
 
