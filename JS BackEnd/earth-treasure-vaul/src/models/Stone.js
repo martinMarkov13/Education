@@ -11,7 +11,8 @@ const stoneSchema = new mongoose.Schema({
     },
     color:{
         type: String,
-        required: [true, "Color is required"]
+        required: [true, "Color is required"],
+        minLength: [2, "Color must be at least 2 characters!"]
     },
     image:{
         type: String,

@@ -8,7 +8,7 @@ exports.findOne = (stoneId) => Stone.findById(stoneId).populate('owner').lean()
 
 exports.deleteStone = (stoneId) => Stone.findByIdAndDelete(stoneId)
 
-exports.editStone = (stone, stoneData) => Stone.findByIdAndUpdate(stone, stoneData)
+exports.editStone = (stone, stoneData) => Stone.updateOne(stone, stoneData, { runValidators: true })
 
 exports.likePost = async (stoneId, user) => {
     const stone = await Stone.findById(stoneId);

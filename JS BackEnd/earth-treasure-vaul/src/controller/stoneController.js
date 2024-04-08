@@ -74,7 +74,7 @@ router.post('/:stoneId/edit', async (req, res) => {
     const stoneData = req.body;
     
     const stone = await stoneService.findOne(stoneId)
-
+    
     try{
         await stoneService.editStone(stone, stoneData)
         res.redirect(`/stones/${stoneId}/details`)
