@@ -24,7 +24,6 @@ router.post('/create', async (req, res)=> {
     }catch(err){
         res.render('stones/create', {error: getErrorMessage(err)})
     }
-
 })
 
 router.get('/:stoneId/details', async (req, res) => {
