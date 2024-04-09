@@ -11,3 +11,9 @@ exports.getOne = (book) => Book.findById(book).populate('owner').lean()
 exports.getWished = (book) => Book.findById(book).populate('owner')
 
 exports.updateBook = (book, updateData) => Book.findByIdAndUpdate(book, updateData, { runValidators: true })
+
+exports.getWished = async (user) => {
+    let books = await Book.find().lean()
+    
+    return books.filter(b => b.wishingLst.toString().includes(user._id))
+}

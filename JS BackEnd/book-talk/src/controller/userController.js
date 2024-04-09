@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const  userService  = require("../services/userService");
+const  bookService  = require("../services/bookService");
 const { getErrorMessage } = require("../utils/errorHelpers");
 
 router.get("/login", (req, res) => {
@@ -42,6 +43,14 @@ router.get('/logout', (req, res) => {
     res.clearCookie('token')
     
     res.redirect('/')
+})
+
+router.get('/profile', async (req, res) => {
+  const user = req.user
+
+  const wishingList = await bookService.getWished(user)
+  
+  res.render('users/profile', {user, wishingList})
 })
 
 module.exports = router;
