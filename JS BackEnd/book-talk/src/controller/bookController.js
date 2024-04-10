@@ -47,7 +47,7 @@ router.get("/:bookId/details", async (req, res) => {
 });
 
 router.get("/:bookId/wish", async (req, res) => {
-  const book = await bookService.getWished(req.params.bookId);
+  const book = await bookService.wishBook(req.params.bookId);
   const user = req.user._id;
 
   book.wishingLst.push(user);
