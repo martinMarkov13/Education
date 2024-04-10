@@ -23,3 +23,19 @@ exports.vote = async (volcanoId, user) => {
         return
     }
 }
+
+exports.getSearchResult = async (name, type) => {
+    const volcanoes = await Volcano.find().lean()
+    console.log(volcanoes);
+    let result = []
+  
+    if (name) {
+     result = volcanoes.filter((v) => v.name.toLowerCase().includes(name.toLowerCase()));
+    }
+  
+    if (type) {
+      result = volcanoes.filter((v) => v.type == type);
+    }
+  
+    return result;
+}

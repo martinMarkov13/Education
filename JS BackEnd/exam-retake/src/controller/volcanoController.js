@@ -32,8 +32,8 @@ router.get('/:volcanoId/details', async (req, res) => {
     const volcano = await volcanoService.getOne(volcanoId).lean()
     
     const isCreator = req.user?._id == volcano.owner._id;
-    const hasAlreadyVoted = volcano.voteList.toString().includes(req.user?._id);
 
+    const hasAlreadyVoted = volcano.voteList.toString().includes(req.user?._id);
 
     res.render('volcanoes/details', { volcano, isCreator, hasAlreadyVoted })
 })
@@ -60,7 +60,7 @@ router.get('/:volcanoId/edit', async (req, res) => {
     if(isOwner){
         res.render(`volcanoes/edit`, { volcano })
     }else{
-        res.render(`volcanoes/${volcanoId}/details`)
+        res.redirect(`/volcanoes/${volcanoId}/details`)
     }
 })
 
@@ -77,7 +77,7 @@ router.post('/:volcanoId/edit', async (req, res) => {
     
             res.redirect(`/volcanoes/${volcanoId}/details`)
         }else{
-            res.render(`volcanoes/${volcanoId}/details`)
+            res.redirect(`/volcanoes/${volcanoId}/details`)
         }
     }catch(err){
         res.render(`volcanoes/edit`, { volcano, error: getErrorMessage(err)});
@@ -97,8 +97,18 @@ router.get('/:volcanoId/vote', async (req, res) => {
    } 
 })
 
-router.get('/search', (req, res) => {
-    res.render('volcanoes/search')
+router.get('/search', async (req, res) => {
+    const volcanoes = await volcanoService.getAll()
+
+    res.render('volcanoes/search', { volcanoes })
+})
+
+router.post('/search', async (req, res) => {
+    const {name, type} = req.body;
+    console.log(name,type);
+    const volcanoes = await volcanoService.getSearchResult(name, type)
+
+    res.render('volcanoes/search', { volcanoes })
 })
 
 
