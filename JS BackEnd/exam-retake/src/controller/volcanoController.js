@@ -67,9 +67,10 @@ router.get('/:volcanoId/edit', async (req, res) => {
 router.post('/:volcanoId/edit', async (req, res) => {
     const updateData = req.body;
     const volcanoId = req.params.volcanoId
-    const isOwner = req.user?._id == volcano.owner._id;
 
     const volcano = await volcanoService.getOne(volcanoId).lean()
+
+    const isOwner = req.user?._id == volcano.owner._id;
 
     try{
         if(isOwner){
@@ -105,7 +106,7 @@ router.get('/search', async (req, res) => {
 
 router.post('/search', async (req, res) => {
     const {name, type} = req.body;
-    console.log(name,type);
+  
     const volcanoes = await volcanoService.getSearchResult(name, type)
 
     res.render('volcanoes/search', { volcanoes })

@@ -19,8 +19,8 @@ const volcanoSchema = new mongoose.Schema({
   lastEruption: {
     type: Number,
     required: [true, "Last eruption is required!"],
-    min: [0, "Year is incored"],
-    max: [2024, "Year is incored"]
+    min: [0, "Year is incorrect"],
+    max: [2024, "Year is incorrect"]
   },
   image: {
     type: String,
@@ -48,7 +48,7 @@ const volcanoSchema = new mongoose.Schema({
     {
       type: mongoose.Types.ObjectId,
       ref: "User",
-    },
+    }
   ],
   owner: {
     type: mongoose.Types.ObjectId,
