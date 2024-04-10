@@ -1,30 +1,31 @@
 const router = require("express").Router();
 const  userService  = require("../services/userService");
 const { getErrorMessage } = require("../utils/errorHelpers");
+const { isLogged, isAuth } = require('../middlewares/authMiddleware')
 
-router.get("/login", (req, res) => {
+router.get("/login", isLogged, (req, res) => {
   res.render("users/login");
 });
 
-router.post('/login', async (req, res) => {
-    const { username, password} = req.body
+router.post('/login', isLogged, async (req, res) => {
+    const { email, password} = req.body
 
     try{
-        const token = await userService.login(username, password)
+        const token = await userService.login(email, password)
 
         res.cookie('token', token)
 
         res.redirect('/')
     }catch(err){
-        res.render('users/login', {error: getErrorMessage(err)})
+        res.render('users/login', {error: getErrorMessage(err), email})
     }
 })
 
-router.get("/register", (req, res) => {
+router.get("/register", isLogged, (req, res) => {
   res.render("users/register");
 });
 
-router.post("/register", async (req, res) => {
+router.post("/register", isLogged, async (req, res) => {
   const userData = req.body;
 
   try{
@@ -38,7 +39,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.get('/logout', (req, res) => {
+router.get('/logout', isAuth, (req, res) => {
     res.clearCookie('token')
     
     res.redirect('/')
