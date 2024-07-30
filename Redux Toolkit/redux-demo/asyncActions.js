@@ -1,5 +1,5 @@
 const redux = require("redux");
-const thunkMiddleware = require('redux-thunk').default
+const thunkMiddleware = require('redux-thunk').thunk
 const axios = require("axios");
 const createStore = redux.createStore;
 const applyMiddleware = redux.applyMiddleware
